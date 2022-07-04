@@ -1,20 +1,46 @@
-sudo pacman -S openbox
-sudo pacman -S alsa-utils pulseaudio pulseaudio-alsa
-yay -S brightnessctl
-yay -S psuinfo
-sudo pacman -S wireless_tools
-yay -S dunst tint2 gsimplecal rofi feh lxappearance qt5ct qt5-styleplugins lxsession xautolock rxvt-unicode-truecolor-wide-glyphs xclip scrot thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession tumbler jq w3m geany nano vim viewnior pavucontrol parcellite neofetch htop picom-git gtk2-perl xfce4-power-manager imagemagick playerctl networkmanager-dmenu xsettingsd
-git clone https://github.com/ilham25/dotfiles-openbox
-pushd dotfiles-openbox/ && \
-  bash -c 'cp -v -r {.*,*} ~/' && \
-popd
-rm ~/README.md && rm ~/LICENSE && rm -rf ~/.git
-cd ~/.icons/
-
-tar -Jxvf oomox-aesthetic-light.tar.xz && tar -Jxvf oomox-aesthetic-dark.tar.xz
-
-sudo cp -r {oomox-aesthetic-light,oomox-aesthetic-dark} /usr/share/icons/
-
-rm -r ~/.icons/{oomox-aesthetic-light,oomox-aesthetic-dark,*.tar.xz} 
-fc-cache -rv
-sudo gpasswd -a $USER video
+paru -S kitty polybar rofi bspwm-rounded-corners-git xdg-user-dirs nautilus xorg pavucontrol blueberry xfce4-power-manager feh lxappearance papirus-icon-theme file-roller gtk-engines gtk-engine-murrine neofetch imagemagick parcellite xclip maim gpick curl jq tint2 zsh moreutils recode dunst plank python-xdg redshift mate-polkit xfce4-settings mpv yaru-sound-theme fish alsa-utils slim xorg-xinit brightnessctl acpi mugshot playerctl python-pytz glava wmctrl i3lock-color jgmenu inter-font networkmanager-dmenu-git conky-lua bsp-layout zscroll noise-suppression-for-voice starship system76-power lsof gamemode lib32-gamemode xdo bluez bluez-utils bluez-libs bluez-tools
+sudo pacman -S python-pip
+sudo pip install pylrc
+paru -S rust-nightly-bin gtk3
+cd ~/Downloads
+git clone https://github.com/elkowar/eww.git
+cd eww
+cargo build --release -j $(nproc)
+cd target/release
+sudo mv eww /usr/bin/eww
+sudo pacman -S base-devel
+cd ~/Downloads
+git clone https://github.com/baskerville/xqp.git
+cd xqp
+make
+sudo make install
+sudo pacman -S libconfig libev libxdg-basedir pcre pixman xcb-util-image xcb-util-renderutil hicolor-icon-theme libglvnd libx11 libxcb libxext libdbus asciidoc uthash
+cd ~/Downloads
+git clone https://github.com/pijulius/picom.git
+cd picom/
+meson --buildtype=release . build --prefix=/usr -Dwith_docs=true
+sudo ninja -C build install
+sudo usermod -aG adm $USER
+sudo systemctl enable --now com.system76.PowerDaemon
+sudo systemctl enable bluetooth
+cd ~/Downloads
+git clone https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme.git
+cd Tokyo-Night-GTK-Theme/
+mv themes/Tokyonight-Dark-BL /usr/share/themes/
+cd ~/Downloads
+git clone https://github.com/syndrizzle/hotfiles.git -b bspwm
+cd hotfiles
+cp -r .config .scripts .local .cache .wallpapers ~/
+sudo cp -r usr/ /usr/
+cp .xinitrc .gtkrc-2.0 ~/
+cd .fonts
+mv * /usr/share/fonts
+sudo mv usr/ /usr/
+paru -S spicetify-cli-git
+sudo chmod a+wr /opt/spotify
+sudo chmod a+wr /opt/spotify/Apps -R
+spicetify config current_theme Ziro
+spicetify config color_scheme tokyonight
+spicetify config extensions adblock.js
+spicetify backup apply
+xdg-user-dirs-update
